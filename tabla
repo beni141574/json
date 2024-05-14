@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table,td,th{border: 2px solid blue; border-collapse: collapse;}
+    </style>
+</head>
+<body>
+    <button id="boton" onclick="botonfuncion()">Hazmeclick</button>
+    <div id="contenedorTabla"></div>
+    <script>
+        function botonfuncion(){
+            fetch('./clientes.json')
+                .then(function(response) {
+                    if (!response.ok) {
+                        throw new Error('No se pudo cargar el archivo JSON.');
+                    }
+                    return response.json(); // Convertimos la respuesta a JSON
+                })
+                .then(function(data) {
+                    let tabla = document.createElement("table");
+                    for (objeto of data.clientes){
+                        let fila=document.createElement("tr");
+                        let celdaNombre=document.createElement("td");
+                        celdaNombre.innerHTML = objeto.nombre;
+                        let celdaRanking=document.createElement("td");
+                        celdaRanking.innerHTML = objeto.ranking;
+                        let celdaPiloto=document.createElement("td");
+                        celdaPiloto.innerHTML = objeto.Piloto;
+                        let celdaF1=document.createElement("td");
+                        celdaF1.innerHTML = objeto.F1;
+                        let celdaPiezasnecesarias=document.createElement("td");
+                        celdaPiezasnecesarias.innerHTML = objeto.piezasnecesarias;
+                        let celdaPreciopiezas=document.createElement("td");
+                        celdaPreciopiezas.innerHTML = objeto.preciopiezas;
+                        fila.appendChild(celdaNombre);
+                        fila.appendChild(celdaRanking);
+                        fila.appendChild(celdaPiloto);
+                        fila.appendChild(celdaF1);
+                        fila.appendChild(celdaPiezasnecesarias);
+                        fila.appendChild(celdaPreciopiezas);
+                        tabla.appendChild(fila);
+                    }
+                    let contenedorTabla=document.getElementById("contenedorTabla");
+                    contenedorTabla.appendChild(tabla);
+                })
+                .catch(function(error) {
+                    console.error('Se produjo un error al cargar el archivo JSON:', error);
+                });
+        }
+    </script>
+</body>
+</html>
